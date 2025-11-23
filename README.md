@@ -1,3 +1,17 @@
+"MAUCAYLLE CHIRCCA, YUNIOR YULIÑO": {
+    "titulo": "Sistema de Facturación",
+    "descripcion": "Aplicación CRUD en Angular para gestionar información relacionada con sistema de facturación.",
+    "requerimientos": [
+      "Implementar autenticación de usuarios con Firebase Authentication.",
+      "Crear una colección principal en Firestore para almacenar datos de sistema de facturación.",
+      "Permitir crear, editar y eliminar registros asociados al usuario autenticado.",
+      "Agregar validaciones de formularios para campos obligatorios y formatos correctos.",
+      "Permitir filtrar y buscar registros por criterios relevantes (nombre, fecha o categoría).",
+      "Mostrar un listado con datos ordenados y actualizados en tiempo real desde Firestore.",
+      "Crear una vista de estadísticas o resumen general con totales, promedios o estados principales."
+    ]
+  },
+
 Estructura Correcta Final de Sistemas de Facturacion 
 src/app/
 ├── core/
