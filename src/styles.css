@@ -1,1 +1,240 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    /* Colores Principales */
+    --color-primary: #2563eb; /* Azul Brisk Invoicing */
+    --color-primary-light: #eff6ff; /* Azul claro para fondo activo */
+    --color-primary-hover: #1d4ed8;
+    --color-secondary: #667eea; /* Degradado - Morado/Azul */
+    --color-tertiary: #764ba2; /* Degradado - Morado */
+
+    /* Colores Neutros/Grises */
+    --color-text-primary: #111827; /* Gris oscuro/Negro para títulos */
+    --color-text-secondary: #4b5563; /* Gris medio para texto general */
+    --color-text-label: #6b7280; /* Gris para labels, subtítulos y textos pequeños */
+    --color-background: #f5f7fa; /* Fondo general de la página */
+    --color-card-background: #fff; /* Fondo de tarjetas y sidebar */
+    --color-border-light: #e5e7eb; /* Borde ligero */
+    --color-border-medium: #d1d5db; /* Borde medio */
+
+    /* Colores de Estado */
+    --color-status-pending-bg: #fef3c7; /* Amarillo claro */
+    --color-status-pending-text: #92400e; /* Marrón oscuro */
+    --color-status-paid-bg: #d1fae5; /* Verde claro */
+    --color-status-paid-text: #065f46; /* Verde oscuro */
+    --color-status-success-text: #059669; /* Verde para cambios positivos */
+
+    /* Tipografía */
+    --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+    /* Espaciado */
+    --spacing-xs: 0.5rem;   /* 8px */
+    --spacing-sm: 0.75rem;  /* 12px */
+    --spacing-md: 1rem;     /* 16px */
+    --spacing-lg: 1.5rem;   /* 24px */
+    --spacing-xl: 2rem;     /* 32px */
+    --spacing-xxl: 3rem;    /* 48px */
+
+    /* Sombras */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(37, 99, 235, 0.1); /* Sombra para hover principal */
+
+    /* Radio de Borde */
+    --border-radius-sm: 6px;
+    --border-radius-md: 8px;
+    --border-radius-full: 9999px;
+}
+
+/* 1. Importación de Variables */
+@import url('variables.css');
+
+/* 2. CSS Reset (Simplificado) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 3. Estilos Globales y Estructura */
+body {
+    font-family: var(--font-family-sans);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+}
+
+/* Header */
+.header {
+    background-color: var(--color-card-background);
+    border-bottom: 1px solid var(--color-border-light);
+    padding: 0 var(--spacing-xl);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    box-shadow: var(--shadow-sm);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    height: calc(100vh - 64px);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background-color: var(--color-card-background);
+    border-right: 1px solid var(--color-border-light);
+    padding: var(--spacing-lg) 0;
+    overflow-y: auto;
+}
+
+.sidebar-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.sidebar-title {
+    padding: 0 var(--spacing-lg);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-text-label);
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: 0.05em;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-item {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.sidebar-item:hover {
+    background-color: #f3f4f6; /* Usar un color fijo o variable si lo defines */
+    color: var(--color-primary);
+}
+
+.sidebar-item.active {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    border-right: 3px solid var(--color-primary);
+}
+
+.sidebar-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: var(--spacing-xl);
+    overflow-y: auto;
+}
+
+.page-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.page-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.page-subtitle {
+    color: var(--color-text-label);
+    font-size: 0.95rem;
+}
+
+/* Reutilización de estilos de tarjeta para todas las secciones */
+.stat-card,
+.create-section,
+.table-section {
+    background: var(--color-card-background);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Títulos de secciones */
+.create-title,
+.table-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Botones y badges (reutilizables) */
+.filter-btn,
+.action-btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: 1px solid var(--color-border-medium);
+    border-radius: var(--border-radius-sm);
+    background: var(--color-card-background);
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.action-btn:hover {
+    background-color: #f3f4f6;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-pending {
+    background-color: var(--color-status-pending-bg);
+    color: var(--color-status-pending-text);
+}
+
+.status-paid {
+    background-color: var(--color-status-paid-bg);
+    color: var(--color-status-paid-text);
+}
