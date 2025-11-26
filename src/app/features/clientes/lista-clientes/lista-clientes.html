@@ -1,1 +1,248 @@
-<p>lista-clientes works!</p>
+<div class="clientes-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>Clientes</h1>
+      <p>Gestiona tu cartera de clientes</p>
+    </div>
+    <button class="btn-primary" routerLink="/clientes/crear">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Nuevo Cliente
+    </button>
+  </div>
+
+  <!-- Error -->
+  <div class="alert alert-error" *ngIf="error()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    {{ error() }}
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading()" class="loading-container">
+    <div class="spinner-large"></div>
+    <p>Cargando clientes...</p>
+  </div>
+
+  <!-- Contenido -->
+  <div *ngIf="!loading()" class="content-card">
+    
+    <!-- Barra de búsqueda y filtros -->
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          placeholder="Buscar por nombre, RUC, email, ciudad..."
+          [(ngModel)]="terminoBusqueda"
+          (input)="onBuscar(terminoBusqueda)"
+          class="search-input">
+        <button 
+          *ngIf="terminoBusqueda" 
+          class="clear-search"
+          (click)="onBuscar('')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="stats-summary">
+        <span class="stat-badge">
+          <strong>{{ clientesFiltrados().length }}</strong> 
+          {{ clientesFiltrados().length === 1 ? 'cliente' : 'clientes' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-container" *ngIf="clientesPaginados.length > 0">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th (click)="ordenarPor('nombre')" class="sortable">
+              Cliente {{ getIconoOrden('nombre') }}
+            </th>
+            <th (click)="ordenarPor('ruc')" class="sortable">
+              RUC {{ getIconoOrden('ruc') }}
+            </th>
+            <th (click)="ordenarPor('email')" class="sortable">
+              Email {{ getIconoOrden('email') }}
+            </th>
+            <th>Teléfono</th>
+            <th (click)="ordenarPor('ciudad')" class="sortable">
+              Ciudad {{ getIconoOrden('ciudad') }}
+            </th>
+            <th (click)="ordenarPor('fechaRegistro')" class="sortable">
+              Fecha Registro {{ getIconoOrden('fechaRegistro') }}
+            </th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientesPaginados">
+            <td>
+              <div class="cliente-info">
+                <div class="cliente-avatar">
+                  {{ cliente.nombre.charAt(0) }}{{ cliente.apellido.charAt(0) }}
+                </div>
+                <div>
+                  <div class="cliente-nombre">{{ cliente.nombre }} {{ cliente.apellido }}</div>
+                  <div class="cliente-empresa" *ngIf="cliente.empresa">{{ cliente.empresa }}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="font-mono">{{ cliente.ruc }}</span>
+            </td>
+            <td>
+              <a [href]="'mailto:' + cliente.email" class="email-link">{{ cliente.email }}</a>
+            </td>
+            <td>{{ cliente.telefono }}</td>
+            <td>{{ cliente.ciudad }}, {{ cliente.pais }}</td>
+            <td>{{ formatearFecha(cliente.fechaRegistro) }}</td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  class="btn-icon btn-icon-info"
+                  [routerLink]="['/clientes/detalle', cliente.id]"
+                  title="Ver detalle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+                <button 
+                  class="btn-icon btn-icon-primary"
+                  [routerLink]="['/clientes/editar', cliente.id]"
+                  title="Editar">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+                <button 
+                  class="btn-icon btn-icon-danger"
+                  (click)="confirmarEliminar(cliente)"
+                  title="Eliminar">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination" *ngIf="totalPaginas > 1">
+      <button 
+        class="pagination-btn"
+        (click)="cambiarPagina(paginaActual - 1)"
+        [disabled]="paginaActual === 1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Anterior
+      </button>
+
+      <div class="pagination-numbers">
+        <button
+          *ngFor="let pagina of paginasVisibles"
+          class="pagination-number"
+          [class.active]="pagina === paginaActual"
+          (click)="cambiarPagina(pagina)">
+          {{ pagina }}
+        </button>
+      </div>
+
+      <button 
+        class="pagination-btn"
+        (click)="cambiarPagina(paginaActual + 1)"
+        [disabled]="paginaActual === totalPaginas">
+        Siguiente
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Estado vacío -->
+    <div class="empty-state" *ngIf="clientesFiltrados().length === 0 && !terminoBusqueda">
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+      <h3>No hay clientes registrados</h3>
+      <p>Comienza agregando tu primer cliente</p>
+      <button class="btn-primary" routerLink="/clientes/crear">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Crear Primer Cliente
+      </button>
+    </div>
+
+    <!-- Sin resultados de búsqueda -->
+    <div class="empty-state" *ngIf="clientesFiltrados().length === 0 && terminoBusqueda">
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <h3>No se encontraron resultados</h3>
+      <p>No hay clientes que coincidan con "{{ terminoBusqueda }}"</p>
+      <button class="btn-secondary" (click)="onBuscar('')">
+        Limpiar búsqueda
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Confirmación de Eliminación -->
+<div class="modal-overlay" [class.show]="mostrarModalEliminar" (click)="cancelarEliminar()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-icon modal-icon-danger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <h2>¿Eliminar Cliente?</h2>
+      <p>¿Estás seguro de que deseas eliminar a <strong>{{ clienteAEliminar?.nombre }} {{ clienteAEliminar?.apellido }}</strong>?</p>
+      <p class="modal-warning">Esta acción no se puede deshacer.</p>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" (click)="cancelarEliminar()">
+        Cancelar
+      </button>
+      <button class="btn-danger" (click)="eliminarCliente()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+        Eliminar Cliente
+      </button>
+    </div>
+  </div>
+</div>
