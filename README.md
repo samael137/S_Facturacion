@@ -12,7 +12,7 @@
     ]
   },
 
-Estructura Correcta Final de Sistemas de Facturacion 
+Estructura Final de Sistemas de Facturacion 
 src/app/
 ├── core/
 │   └── guards/
