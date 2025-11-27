@@ -38,6 +38,10 @@ export const routes: Routes = [
         path: 'editar/:id',
         loadComponent: () => import('./features/clientes/editar-cliente/editar-cliente')
           .then(m => m.EditarCliente)
+      },
+      {path: 'detalle/:id',
+        loadComponent: () => import('./features/clientes/detalle-cliente/detalle-cliente')
+          .then(m => m.DetalleCliente)
       }
     ]
   },
@@ -59,6 +63,11 @@ export const routes: Routes = [
         path: 'detalle/:id',
         loadComponent: () => import('./features/facturas/detalle-factura/detalle-factura')
           .then(m => m.DetalleFactura)
+      },
+      {
+        path: 'editar/:id',
+        loadComponent: () => import('./features/facturas/editar-factura/editar-factura')
+          .then(m => m.EditarFactura)
       }
     ]
   },

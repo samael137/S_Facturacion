@@ -1,1 +1,358 @@
-<p>editar-cliente works!</p>
+<div class="editar-cliente-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <button class="btn-back" routerLink="/clientes">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver
+      </button>
+      <div>
+        <h1>Editar Cliente</h1>
+        <p *ngIf="clienteOriginal">{{ clienteOriginal.nombre }} {{ clienteOriginal.apellido }}</p>
+        <p *ngIf="!clienteOriginal && !loadingData">Modificar información del cliente</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error de carga -->
+  <div class="alert alert-error" *ngIf="error && loadingData">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    {{ error }}
+    <button class="btn-link" routerLink="/clientes">Volver a la lista</button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loadingData && !error" class="loading-container">
+    <div class="spinner-large"></div>
+    <p>Cargando datos del cliente...</p>
+  </div>
+
+  <!-- Formulario -->
+  <div *ngIf="!loadingData && !error" class="form-card">
+    <!-- Badge de cambios -->
+    <div class="changes-badge" *ngIf="hasChanges">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      Hay cambios sin guardar
+    </div>
+
+    <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Sección: Información Personal -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <h2>Información Personal</h2>
+        </div>
+
+        <div class="form-grid">
+          <!-- Nombre -->
+          <div class="form-group">
+            <label for="nombre">
+              Nombre *
+            </label>
+            <input
+              id="nombre"
+              type="text"
+              formControlName="nombre"
+              placeholder="Juan"
+              [class.error]="nombre?.invalid && nombre?.touched">
+            
+            <div class="error-message" *ngIf="nombre?.invalid && nombre?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span *ngIf="nombre?.errors?.['required']">El nombre es requerido</span>
+              <span *ngIf="nombre?.errors?.['minlength']">Mínimo 2 caracteres</span>
+            </div>
+          </div>
+
+          <!-- Apellido -->
+          <div class="form-group">
+            <label for="apellido">
+              Apellido *
+            </label>
+            <input
+              id="apellido"
+              type="text"
+              formControlName="apellido"
+              placeholder="Pérez"
+              [class.error]="apellido?.invalid && apellido?.touched">
+            
+            <div class="error-message" *ngIf="apellido?.invalid && apellido?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span *ngIf="apellido?.errors?.['required']">El apellido es requerido</span>
+              <span *ngIf="apellido?.errors?.['minlength']">Mínimo 2 caracteres</span>
+            </div>
+          </div>
+
+          <!-- Empresa -->
+          <div class="form-group full-width">
+            <label for="empresa">
+              Empresa (Opcional)
+            </label>
+            <input
+              id="empresa"
+              type="text"
+              formControlName="empresa"
+              placeholder="Mi Empresa S.A.">
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección: Información Fiscal -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <h2>Información Fiscal</h2>
+        </div>
+
+        <div class="form-grid">
+          <!-- RUC -->
+          <div class="form-group">
+            <label for="ruc">
+              RUC *
+            </label>
+            <input
+              id="ruc"
+              type="text"
+              formControlName="ruc"
+              placeholder="20123456789"
+              maxlength="11"
+              [class.error]="ruc?.invalid && ruc?.touched">
+            
+            <div class="error-message" *ngIf="ruc?.invalid && ruc?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span *ngIf="ruc?.errors?.['required']">El RUC es requerido</span>
+              <span *ngIf="ruc?.errors?.['pattern']">Debe tener 11 dígitos</span>
+            </div>
+            <div class="field-hint">Ingresa 11 dígitos numéricos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección: Información de Contacto -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <h2>Información de Contacto</h2>
+        </div>
+
+        <div class="form-grid">
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">
+              Email *
+            </label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="cliente@ejemplo.com"
+              [class.error]="email?.invalid && email?.touched">
+            
+            <div class="error-message" *ngIf="email?.invalid && email?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span *ngIf="email?.errors?.['required']">El email es requerido</span>
+              <span *ngIf="email?.errors?.['email']">Email inválido</span>
+            </div>
+          </div>
+
+          <!-- Teléfono -->
+          <div class="form-group">
+            <label for="telefono">
+              Teléfono *
+            </label>
+            <input
+              id="telefono"
+              type="tel"
+              formControlName="telefono"
+              placeholder="987654321"
+              [class.error]="telefono?.invalid && telefono?.touched">
+            
+            <div class="error-message" *ngIf="telefono?.invalid && telefono?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span *ngIf="telefono?.errors?.['required']">El teléfono es requerido</span>
+              <span *ngIf="telefono?.errors?.['pattern']">Solo números (9-15 dígitos)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección: Dirección -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <h2>Dirección</h2>
+        </div>
+
+        <div class="form-grid">
+          <!-- Dirección -->
+          <div class="form-group full-width">
+            <label for="direccion">
+              Dirección *
+            </label>
+            <input
+              id="direccion"
+              type="text"
+              formControlName="direccion"
+              placeholder="Av. Principal 123, Distrito"
+              [class.error]="direccion?.invalid && direccion?.touched">
+            
+            <div class="error-message" *ngIf="direccion?.invalid && direccion?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span *ngIf="direccion?.errors?.['required']">La dirección es requerida</span>
+              <span *ngIf="direccion?.errors?.['minlength']">Mínimo 5 caracteres</span>
+            </div>
+          </div>
+
+          <!-- Ciudad -->
+          <div class="form-group">
+            <label for="ciudad">
+              Ciudad *
+            </label>
+            <input
+              id="ciudad"
+              type="text"
+              formControlName="ciudad"
+              placeholder="Lima"
+              [class.error]="ciudad?.invalid && ciudad?.touched">
+            
+            <div class="error-message" *ngIf="ciudad?.invalid && ciudad?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span *ngIf="ciudad?.errors?.['required']">La ciudad es requerida</span>
+              <span *ngIf="ciudad?.errors?.['minlength']">Mínimo 2 caracteres</span>
+            </div>
+          </div>
+
+          <!-- País -->
+          <div class="form-group">
+            <label for="pais">
+              País *
+            </label>
+            <select
+              id="pais"
+              formControlName="pais"
+              [class.error]="pais?.invalid && pais?.touched">
+              <option value="" disabled>Selecciona un país</option>
+              <option *ngFor="let p of paises" [value]="p">{{ p }}</option>
+            </select>
+            
+            <div class="error-message" *ngIf="pais?.invalid && pais?.touched">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span *ngIf="pais?.errors?.['required']">El país es requerido</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensajes -->
+      <div class="alert alert-error" *ngIf="error && !loadingData">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        {{ error }}
+      </div>
+
+      <div class="alert alert-success" *ngIf="success">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        {{ success }}
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn-secondary"
+          (click)="cancelar()"
+          [disabled]="loading">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="btn-primary"
+          [disabled]="loading || clienteForm.invalid || !hasChanges">
+          <span *ngIf="!loading">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            Guardar Cambios
+          </span>
+          <span *ngIf="loading" class="loading-btn">
+            <div class="btn-spinner"></div>
+            Guardando...
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

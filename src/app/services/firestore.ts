@@ -11,8 +11,11 @@ import {
   query,
   where,
   orderBy,
-  Timestamp
+  Timestamp,
+  onSnapshot,
+  QuerySnapshot
 } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +27,7 @@ export class FirestoreService {
   async crear<T extends object>(coleccion: string, datos: T): Promise<string> {
     try {
       const ref = collection(this.firestore, coleccion);
-      const docRef = await addDoc(ref, {
-        ...datos,
-        fechaCreacion: Timestamp.now()
-      });
+      const docRef = await addDoc(ref, datos);
       return docRef.id;
     } catch (error) {
       console.error('Error al crear documento:', error);
@@ -39,10 +39,7 @@ export class FirestoreService {
   async actualizar<T extends object>(coleccion: string, id: string, datos: Partial<T>): Promise<void> {
     try {
       const docRef = doc(this.firestore, coleccion, id);
-      await updateDoc(docRef, {
-        ...datos,
-        fechaActualizacion: Timestamp.now()
-      });
+      await updateDoc(docRef, datos as any);
     } catch (error) {
       console.error('Error al actualizar documento:', error);
       throw error;
@@ -96,26 +93,68 @@ export class FirestoreService {
     }
   }
 
-  // Obtener por usuario
+  // Obtener por usuario (SIN orderBy para evitar error de índice)
   async obtenerPorUsuario<T>(coleccion: string, usuarioId: string): Promise<T[]> {
     try {
       const ref = collection(this.firestore, coleccion);
       const q = query(
         ref, 
         where('usuarioId', '==', usuarioId),
-        where('activo', '==', true),
-        orderBy('fechaCreacion', 'desc')
+        where('activo', '==', true)
       );
       
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({
+      const docs = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })) as T[];
+      
+      // Ordenar en memoria por fechaRegistro
+      return docs.sort((a: any, b: any) => {
+        const fechaA = a.fechaRegistro?.toDate?.() || new Date(a.fechaRegistro);
+        const fechaB = b.fechaRegistro?.toDate?.() || new Date(b.fechaRegistro);
+        return fechaB.getTime() - fechaA.getTime();
+      });
     } catch (error) {
       console.error('Error al obtener documentos por usuario:', error);
       throw error;
     }
+  }
+
+  // ✨ NUEVO: Obtener por usuario en TIEMPO REAL
+  obtenerPorUsuarioRealtime<T>(
+    coleccion: string, 
+    usuarioId: string,
+    callback: (datos: T[]) => void
+  ): () => void {
+    const ref = collection(this.firestore, coleccion);
+    const q = query(
+      ref, 
+      where('usuarioId', '==', usuarioId),
+      where('activo', '==', true)
+    );
+    
+    // Escuchar cambios en tiempo real
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const docs = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as T[];
+      
+      // Ordenar en memoria por fechaRegistro
+      const sorted = docs.sort((a: any, b: any) => {
+        const fechaA = a.fechaRegistro?.toDate?.() || new Date(a.fechaRegistro);
+        const fechaB = b.fechaRegistro?.toDate?.() || new Date(b.fechaRegistro);
+        return fechaB.getTime() - fechaA.getTime();
+      });
+      
+      callback(sorted);
+    }, (error) => {
+      console.error('Error en tiempo real:', error);
+    });
+    
+    // Retornar función para cancelar la suscripción
+    return unsubscribe;
   }
 
   // Buscar

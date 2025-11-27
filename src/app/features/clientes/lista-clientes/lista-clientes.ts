@@ -1,8 +1,10 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ClientesService } from '../../../services/clientes';
+import { FirestoreService } from '../../../services/firestore';
+import { AuthService } from '../../../services/auth';
 import { Cliente } from '../../../models/cliente';
 
 @Component({
@@ -12,8 +14,10 @@ import { Cliente } from '../../../models/cliente';
   templateUrl: './lista-clientes.html',
   styleUrl: './lista-clientes.css'
 })
-export class ListaClientes implements OnInit {
+export class ListaClientes implements OnInit, OnDestroy {
   private clientesService = inject(ClientesService);
+  private firestoreService = inject(FirestoreService);
+  private authService = inject(AuthService);
 
   // Signals
   clientes = signal<Cliente[]>([]);
@@ -36,10 +40,53 @@ export class ListaClientes implements OnInit {
   clienteAEliminar: Cliente | null = null;
   mostrarModalEliminar = false;
 
+  // Suscripción en tiempo real
+  private unsubscribeRealtime?: () => void;
+
   async ngOnInit() {
-    await this.cargarClientes();
+    await this.cargarClientesRealtime();
   }
 
+  ngOnDestroy() {
+    // Cancelar suscripción al destruir el componente
+    if (this.unsubscribeRealtime) {
+      this.unsubscribeRealtime();
+    }
+  }
+
+  // ✨ NUEVO: Cargar clientes en TIEMPO REAL
+  async cargarClientesRealtime() {
+    try {
+      this.loading.set(true);
+      this.error.set('');
+      
+      const usuarioId = this.authService.getCurrentUserId();
+      if (!usuarioId) {
+        this.error.set('Usuario no autenticado');
+        this.loading.set(false);
+        return;
+      }
+
+      // Escuchar cambios en tiempo real
+      this.unsubscribeRealtime = this.firestoreService.obtenerPorUsuarioRealtime<Cliente>(
+        'clientes',
+        usuarioId,
+        (clientes) => {
+          console.log('Clientes actualizados en tiempo real:', clientes);
+          this.clientes.set(clientes);
+          this.aplicarFiltrosYOrden();
+          this.loading.set(false);
+        }
+      );
+      
+    } catch (error) {
+      console.error('Error cargando clientes:', error);
+      this.error.set('Error al cargar los clientes. Intenta de nuevo.');
+      this.loading.set(false);
+    }
+  }
+
+  // Método alternativo: Cargar SIN tiempo real (por si quieres usarlo)
   async cargarClientes() {
     try {
       this.loading.set(true);
@@ -177,7 +224,7 @@ export class ListaClientes implements OnInit {
 
     try {
       await this.clientesService.eliminar(this.clienteAEliminar.id);
-      await this.cargarClientes();
+      // NO necesitas cargarClientes() porque el tiempo real lo actualiza automáticamente
       this.cancelarEliminar();
     } catch (error) {
       console.error('Error eliminando cliente:', error);
@@ -188,7 +235,7 @@ export class ListaClientes implements OnInit {
   // Helpers
   formatearFecha(fecha: Date | any): string {
     if (!fecha) return '-';
-    const f = fecha instanceof Date ? fecha : new Date(fecha);
+    const f = fecha instanceof Date ? fecha : fecha.toDate ? fecha.toDate() : new Date(fecha);
     return f.toLocaleDateString('es-ES', { 
       year: 'numeric', 
       month: 'short', 
