@@ -12,14 +12,15 @@ export class FacturasService {
   private coleccion = 'facturas';
 
   // Crear factura
-  async crear(factura: Omit<Factura, 'id' | 'usuarioId' | 'fechaCreacion'>): Promise<string> {
+  async crear(factura: Omit<Factura, 'id' | 'usuarioId' | 'fechaCreacion' | 'activo'>): Promise<string> {
     const usuarioId = this.authService.getCurrentUserId();
     if (!usuarioId) throw new Error('Usuario no autenticado');
 
     const nuevaFactura: Omit<Factura, 'id'> = {
       ...factura,
       usuarioId,
-      fechaCreacion: new Date()
+      fechaCreacion: new Date(),
+      activo: true  // ✅ AGREGAR ESTE CAMPO
     };
 
     return await this.firestoreService.crear(this.coleccion, nuevaFactura);

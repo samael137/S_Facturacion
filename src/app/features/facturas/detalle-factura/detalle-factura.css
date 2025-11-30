@@ -1,0 +1,710 @@
+.detalle-factura-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.btn-back {
+  padding: 0.625rem 1rem;
+  background: white;
+  color: #4a5568;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-back:hover {
+  border-color: #cbd5e0;
+  background: #f7fafc;
+}
+
+/* Loading */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.spinner-large {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #718096;
+  font-size: 1rem;
+}
+
+/* Alert */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.alert-error {
+  background: #fff5f5;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+}
+
+/* Factura Card */
+.factura-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  padding: 3rem;
+}
+
+/* Header de la Factura */
+.factura-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.header-left {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.logo-empresa {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.header-left h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 0.5rem 0;
+}
+
+.header-left p {
+  font-size: 0.9rem;
+  color: #718096;
+  margin: 0.25rem 0;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.factura-numero-box {
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.factura-tipo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.factura-numero {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+  font-family: 'Courier New', monospace;
+}
+
+.factura-estado-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 2rem 0;
+}
+
+.divider-thin {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 0.75rem 0;
+}
+
+/* Secciones de Información */
+.seccion-info {
+  margin-bottom: 2rem;
+}
+
+.seccion-info h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 1.25rem 0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.info-grid-cliente {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-value {
+  font-size: 1rem;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.badge-inline {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Estados */
+.estado-pendiente, .estado-pendiente.factura-estado-badge {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.estado-pagada, .estado-pagada.factura-estado-badge {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.estado-vencida, .estado-vencida.factura-estado-badge {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.estado-anulada, .estado-anulada.factura-estado-badge {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Tabla de Items */
+.items-section {
+  margin-bottom: 2rem;
+}
+
+.items-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 1.25rem 0;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.items-table thead {
+  background: #f7fafc;
+}
+
+.items-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #718096;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.items-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+  color: #2d3748;
+}
+
+.items-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+/* Totales */
+.totales-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.totales-box {
+  min-width: 350px;
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.total-label {
+  font-size: 0.95rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.total-value {
+  font-size: 1.05rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+.total-value.descuento {
+color: #e53e3e;
+}
+.total-final {
+padding-top: 0.75rem;
+}
+.total-final .total-label {
+font-size: 1.125rem;
+font-weight: 700;
+color: #1a202c;
+}
+.total-final .total-value {
+font-size: 1.5rem;
+color: #667eea;
+font-weight: 700;
+}
+/* Notas */
+.notas-section {
+background: #fffbeb;
+border: 1px solid #fcd34d;
+border-radius: 12px;
+padding: 1.5rem;
+margin-bottom: 2rem;
+}
+.notas-section h3 {
+font-size: 1rem;
+font-weight: 600;
+color: #92400e;
+margin: 0 0 0.75rem 0;
+}
+.notas-section p {
+font-size: 0.95rem;
+color: #78350f;
+margin: 0;
+line-height: 1.6;
+}
+/* Footer */
+.factura-footer {
+text-align: center;
+padding-top: 2rem;
+border-top: 2px solid #e2e8f0;
+}
+.footer-text {
+font-size: 1rem;
+font-weight: 600;
+color: #2d3748;
+margin: 0 0 0.5rem 0;
+}
+.footer-text-small {
+font-size: 0.85rem;
+color: #718096;
+margin: 0;
+}
+/* Actions Card */
+.actions-card {
+background: white;
+border-radius: 16px;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+border: 1px solid #e2e8f0;
+padding: 1.5rem;
+height: fit-content;
+position: sticky;
+top: 2rem;
+}
+.actions-card h3 {
+font-size: 1.125rem;
+color: #2d3748;
+margin: 0 0 1.25rem 0;
+font-weight: 600;
+}
+.quick-actions {
+display: flex;
+flex-direction: column;
+gap: 0.75rem;
+}
+.action-btn {
+width: 100%;
+padding: 0.875rem 1.25rem;
+border: none;
+border-radius: 10px;
+font-size: 0.95rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+gap: 0.75rem;
+justify-content: center;
+}
+.action-btn-primary {
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+color: white;
+box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+.action-btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+.action-btn-info {
+background: #4299e1;
+color: white;
+box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+}
+.action-btn-info:hover {
+background: #3182ce;
+transform: translateY(-2px);
+}
+.action-btn-success {
+background: #48bb78;
+color: white;
+box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+.action-btn-success:hover {
+background: #38a169;
+transform: translateY(-2px);
+}
+.action-btn-warning {
+background: #ed8936;
+color: white;
+box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);
+}
+.action-btn-warning:hover {
+background: #dd6b20;
+transform: translateY(-2px);
+}
+.action-btn-danger {
+background: white;
+color: #e53e3e;
+border: 2px solid #feb2b2;
+}
+.action-btn-danger:hover {
+background: #fff5f5;
+border-color: #fc8181;
+}
+.divider-actions {
+height: 1px;
+background: #e2e8f0;
+margin: 0.5rem 0;
+}
+/* Información Adicional */
+.info-adicional {
+margin-top: 2rem;
+padding-top: 1.5rem;
+border-top: 1px solid #e2e8f0;
+}
+.info-adicional h4 {
+font-size: 0.95rem;
+font-weight: 600;
+color: #4a5568;
+margin: 0 0 1rem 0;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+.info-item-small {
+display: flex;
+justify-content: space-between;
+padding: 0.5rem 0;
+font-size: 0.875rem;
+}
+.info-item-small span:first-child {
+color: #718096;
+}
+.info-item-small span:last-child {
+color: #2d3748;
+font-weight: 500;
+}
+.text-mono {
+font-family: 'Courier New', monospace;
+font-size: 0.8rem;
+}
+/* Modal */
+.modal-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0, 0, 0, 0.5);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 9999;
+opacity: 0;
+visibility: hidden;
+transition: all 0.3s ease;
+}
+.modal-overlay.show {
+opacity: 1;
+visibility: visible;
+}
+.modal-content {
+background: white;
+border-radius: 16px;
+max-width: 500px;
+width: 90%;
+box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+animation: modalSlideUp 0.3s ease-out;
+}
+@keyframes modalSlideUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.modal-header {
+padding: 2rem;
+text-align: center;
+}
+.modal-icon {
+width: 80px;
+height: 80px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0 auto 1.5rem;
+}
+.modal-icon-danger {
+background: #fff5f5;
+color: #e53e3e;
+}
+.modal-header h2 {
+font-size: 1.5rem;
+color: #1a202c;
+margin: 0 0 0.75rem 0;
+}
+.modal-header p {
+color: #4a5568;
+margin: 0 0 0.5rem 0;
+font-size: 1rem;
+}
+.modal-header p strong {
+color: #2d3748;
+font-weight: 600;
+}
+.modal-warning {
+color: #e53e3e !important;
+font-size: 0.9rem !important;
+font-weight: 500;
+}
+.modal-actions {
+display: flex;
+gap: 1rem;
+padding: 0 2rem 2rem 2rem;
+}
+.modal-actions button {
+flex: 1;
+}
+/* Buttons */
+.btn-secondary {
+padding: 0.875rem 2rem;
+background: white;
+color: #4a5568;
+border: 2px solid #e2e8f0;
+border-radius: 10px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.btn-secondary:hover:not(:disabled) {
+border-color: #cbd5e0;
+background: #f7fafc;
+}
+.btn-secondary:disabled {
+opacity: 0.6;
+cursor: not-allowed;
+}
+.btn-danger {
+padding: 0.875rem 2rem;
+background: #e53e3e;
+color: white;
+border: none;
+border-radius: 10px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 0.5rem;
+}
+.btn-danger:hover:not(:disabled) {
+background: #c53030;
+transform: translateY(-1px);
+}
+.btn-danger:disabled {
+opacity: 0.6;
+cursor: not-allowed;
+}
+/* Loading Button */
+.loading-btn {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+.btn-spinner {
+width: 16px;
+height: 16px;
+border: 2px solid rgba(255, 255, 255, 0.3);
+border-top-color: white;
+border-radius: 50%;
+animation: spin 0.8s linear infinite;
+}
+/* Print Styles */
+@media print {
+.no-print {
+display: none !important;
+}
+.detalle-factura-container {
+padding: 0;
+}
+.content-wrapper {
+grid-template-columns: 1fr;
+}
+.factura-card {
+box-shadow: none;
+border: none;
+}
+}
+/* Responsive */
+@media (max-width: 1024px) {
+.content-wrapper {
+grid-template-columns: 1fr;
+}
+.actions-card {
+position: static;
+}
+}
+@media (max-width: 768px) {
+.detalle-factura-container {
+padding: 1rem;
+}
+.factura-card {
+padding: 2rem 1.5rem;
+}
+.factura-header {
+flex-direction: column;
+gap: 1.5rem;
+}
+.header-right {
+text-align: left;
+width: 100%;
+}
+.info-grid,
+.info-grid-cliente {
+grid-template-columns: 1fr;
+}
+.totales-section {
+justify-content: stretch;
+}
+.totales-box {
+min-width: 100%;
+}
+.items-table {
+font-size: 0.875rem;
+}
+.items-table th,
+.items-table td {
+padding: 0.5rem;
+}
+}

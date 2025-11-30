@@ -109,10 +109,13 @@ export class FirestoreService {
         ...doc.data()
       })) as T[];
       
-      // Ordenar en memoria por fechaRegistro
+      // Ordenar en memoria - soporta ambos campos
       return docs.sort((a: any, b: any) => {
-        const fechaA = a.fechaRegistro?.toDate?.() || new Date(a.fechaRegistro);
-        const fechaB = b.fechaRegistro?.toDate?.() || new Date(b.fechaRegistro);
+        // Intentar con fechaCreacion primero (facturas), luego fechaRegistro (clientes)
+        const fechaA = a.fechaCreacion?.toDate?.() || a.fechaRegistro?.toDate?.() || 
+                       new Date(a.fechaCreacion || a.fechaRegistro);
+        const fechaB = b.fechaCreacion?.toDate?.() || b.fechaRegistro?.toDate?.() || 
+                       new Date(b.fechaCreacion || b.fechaRegistro);
         return fechaB.getTime() - fechaA.getTime();
       });
     } catch (error) {
@@ -121,7 +124,7 @@ export class FirestoreService {
     }
   }
 
-  // ✨ NUEVO: Obtener por usuario en TIEMPO REAL
+  // ✨ Obtener por usuario en TIEMPO REAL
   obtenerPorUsuarioRealtime<T>(
     coleccion: string, 
     usuarioId: string,
@@ -141,10 +144,13 @@ export class FirestoreService {
         ...doc.data()
       })) as T[];
       
-      // Ordenar en memoria por fechaRegistro
+      // Ordenar en memoria - soporta AMBOS campos (fechaCreacion Y fechaRegistro)
       const sorted = docs.sort((a: any, b: any) => {
-        const fechaA = a.fechaRegistro?.toDate?.() || new Date(a.fechaRegistro);
-        const fechaB = b.fechaRegistro?.toDate?.() || new Date(b.fechaRegistro);
+        // Intentar con fechaCreacion primero (facturas), luego fechaRegistro (clientes)
+        const fechaA = a.fechaCreacion?.toDate?.() || a.fechaRegistro?.toDate?.() || 
+                       new Date(a.fechaCreacion || a.fechaRegistro);
+        const fechaB = b.fechaCreacion?.toDate?.() || b.fechaRegistro?.toDate?.() || 
+                       new Date(b.fechaCreacion || b.fechaRegistro);
         return fechaB.getTime() - fechaA.getTime();
       });
       

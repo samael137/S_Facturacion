@@ -17,6 +17,7 @@ export interface Factura {
   notas?: string;
   fechaCreacion: Date;
   fechaActualizacion?: Date;
+  activo: boolean;  // ✅ ASEGÚRATE DE TENER ESTE CAMPO
 }
 
 export interface ItemFactura {
