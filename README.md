@@ -45,7 +45,7 @@ src/app/
 │   ├── dashboard/                  
 │   │
 │   ├── facturas/
-│   │   ├── crear-factura/         
+│   │   ├── crear-factura/          
 │   │   ├── editar-factura/            
 │   │   ├── lista-facturas/            
 │   │   └── detalle-factura/         

@@ -1,1 +1,353 @@
-<p>editar-factura works!</p>
+<div class="editar-factura-container">
+  <div class="page-header">
+    <div class="header-content">
+      <button class="btn-back" routerLink="/facturas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Volver
+      </button>
+      <div>
+        <h1>Editar Factura</h1>
+        <p *ngIf="facturaOriginal">{{ facturaOriginal.numeroFactura }}</p>
+        <p *ngIf="!facturaOriginal && !loadingData">Modificar información de la factura</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-error" *ngIf="error && loadingData">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    {{ error }}
+    <button class="btn-link" routerLink="/facturas">Volver a la lista</button>
+  </div>
+
+  <div *ngIf="loadingData && !error" class="loading-container">
+    <div class="spinner-large"></div>
+    <p>Cargando datos de la factura...</p>
+  </div>
+
+  <form [formGroup]="facturaForm" (ngSubmit)="onSubmit()" *ngIf="!loadingData && !error">
+    <div class="changes-badge" *ngIf="hasChanges">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      Hay cambios sin guardar
+    </div>
+
+    <div class="form-layout">
+      <div class="main-column">
+        
+        <div class="form-card">
+          <div class="card-header">
+            <div class="header-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <h2>Información del Cliente</h2>
+          </div>
+
+          <div class="card-content">
+            <div class="form-group">
+              <label for="clienteId">Cliente *</label>
+              <select id="clienteId" formControlName="clienteId" (change)="onClienteChange($event)" [class.error]="clienteId?.invalid && clienteId?.touched">
+                <option value="">Selecciona un cliente</option>
+                <option *ngFor="let cliente of clientes" [value]="cliente.id">
+                  {{ cliente.nombre }} {{ cliente.apellido }} - {{ cliente.ruc }}
+                </option>
+              </select>
+              <div class="error-message" *ngIf="clienteId?.invalid && clienteId?.touched">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span>Debes seleccionar un cliente</span>
+              </div>
+            </div>
+
+            <div class="cliente-info-box" *ngIf="clienteSeleccionado">
+              <div class="cliente-info-item">
+                <span class="label">Empresa:</span>
+                <span class="value">{{ clienteSeleccionado.empresa || 'N/A' }}</span>
+              </div>
+              <div class="cliente-info-item">
+                <span class="label">Email:</span>
+                <span class="value">{{ clienteSeleccionado.email }}</span>
+              </div>
+              <div class="cliente-info-item">
+                <span class="label">Teléfono:</span>
+                <span class="value">{{ clienteSeleccionado.telefono }}</span>
+              </div>
+              <div class="cliente-info-item">
+                <span class="label">Dirección:</span>
+                <span class="value">{{ clienteSeleccionado.direccion }}, {{ clienteSeleccionado.ciudad }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="card-header">
+            <div class="header-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <h2>Detalles de la Factura</h2>
+          </div>
+
+          <div class="card-content">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="fecha">Fecha de Emisión *</label>
+                <input id="fecha" type="date" formControlName="fecha" [class.error]="fecha?.invalid && fecha?.touched">
+                <div class="error-message" *ngIf="fecha?.invalid && fecha?.touched">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <span>La fecha es requerida</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="fechaVencimiento">Fecha de Vencimiento *</label>
+                <input id="fechaVencimiento" type="date" formControlName="fechaVencimiento" [class.error]="fechaVencimiento?.invalid && fechaVencimiento?.touched">
+                <div class="error-message" *ngIf="fechaVencimiento?.invalid && fechaVencimiento?.touched">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  <span>La fecha de vencimiento es requerida</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="formaPago">Forma de Pago *</label>
+                <select id="formaPago" formControlName="formaPago" [class.error]="formaPago?.invalid && formaPago?.touched">
+                  <option value="efectivo">Efectivo</option>
+                  <option value="tarjeta">Tarjeta</option>
+                  <option value="transferencia">Transferencia</option>
+                  <option value="cheque">Cheque</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="estado">Estado *</label>
+                <select id="estado" formControlName="estado" [class.error]="estado?.invalid && estado?.touched">
+                  <option value="pendiente">Pendiente</option>
+                  <option value="pagada">Pagada</option>
+                  <option value="vencida">Vencida</option>
+                  <option value="anulada">Anulada</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="card-header">
+            <div class="header-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+            </div>
+            <h2>Productos / Servicios</h2>
+            <button type="button" class="btn-add-item" (click)="agregarItem()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Agregar Item
+            </button>
+          </div>
+
+          <div class="card-content items-section">
+            <div class="items-container" formArrayName="items">
+              <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row">
+                <div class="item-number">{{ i + 1 }}</div>
+                
+                <div class="item-fields">
+                  <div class="form-group">
+                    <label>Producto/Servicio *</label>
+                    <select [formControlName]="'productoCodigo'" (change)="seleccionarProducto(i, $event)" class="producto-select">
+                      <option value="">Selecciona o escribe manualmente</option>
+                      <option *ngFor="let prod of productosDisponibles" [value]="prod.codigo">
+                        {{ prod.codigo }} - {{ prod.nombre }} ({{ formatearMoneda(prod.precio) }})
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Descripción *</label>
+                    <input type="text" [formControlName]="'productoNombre'" placeholder="Descripción del producto/servicio" (input)="calcularItem(i)">
+                  </div>
+
+                  <div class="form-group form-group-small">
+                    <label>Cantidad *</label>
+                    <input type="number" [formControlName]="'cantidad'" min="1" (input)="calcularItem(i)">
+                  </div>
+
+                  <div class="form-group form-group-small">
+                    <label>Precio Unit. *</label>
+                    <input type="number" [formControlName]="'precioUnitario'" min="0" step="0.01" (input)="calcularItem(i)">
+                  </div>
+
+                  <div class="form-group form-group-small">
+                    <label>Subtotal</label>
+                    <input type="text" [value]="formatearMoneda(item.get('subtotal')?.value || 0)" readonly class="readonly-input">
+                  </div>
+
+                  <div class="form-group form-group-small">
+                    <label>IVA (18%)</label>
+                    <input type="text" [value]="formatearMoneda(item.get('iva')?.value || 0)" readonly class="readonly-input">
+                  </div>
+
+                  <div class="form-group form-group-small">
+                    <label>Total</label>
+                    <input type="text" [value]="formatearMoneda(item.get('total')?.value || 0)" readonly class="readonly-input total-input">
+                  </div>
+
+                  <button type="button" class="btn-delete-item" (click)="eliminarItem(i)" [disabled]="items.length === 1" title="Eliminar item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="card-header">
+            <div class="header-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </div>
+            <h2>Notas Adicionales</h2>
+          </div>
+
+          <div class="card-content">
+            <div class="form-group">
+              <label for="notas">Notas (Opcional)</label>
+              <textarea id="notas" formControlName="notas" rows="4" placeholder="Términos y condiciones, observaciones, etc."></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="side-column">
+        <div class="summary-card">
+          <h3>Resumen de Factura</h3>
+
+          <div class="summary-section">
+            <div class="summary-row">
+              <span class="summary-label">Subtotal:</span>
+              <span class="summary-value">{{ formatearMoneda(subtotalGeneral) }}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">IVA (18%):</span>
+              <span class="summary-value">{{ formatearMoneda(ivaGeneral) }}</span>
+            </div>
+            
+            <div class="form-group form-group-inline">
+              <label for="descuento">Descuento:</label>
+              <input id="descuento" type="number" formControlName="descuento" min="0" step="0.01" (input)="calcularTotales()" class="descuento-input">
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-row summary-total">
+              <span class="summary-label">TOTAL:</span>
+              <span class="summary-value">{{ formatearMoneda(totalGeneral) }}</span>
+            </div>
+          </div>
+
+          <div class="summary-info">
+            <div class="info-row">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+              <span>{{ items.length }} {{ items.length === 1 ? 'item' : 'items' }} agregado(s)</span>
+            </div>
+            <div class="info-row" *ngIf="clienteSeleccionado">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>{{ clienteSeleccionado.nombre }} {{ clienteSeleccionado.apellido }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-error" *ngIf="error && !loadingData">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          {{ error }}
+        </div>
+
+        <div class="alert alert-success" *ngIf="success">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          {{ success }}
+        </div>
+
+        <div class="action-buttons-side">
+          <button type="button" class="btn-secondary" routerLink="/facturas" [disabled]="loading">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primary" [disabled]="loading || facturaForm.invalid || items.length === 0 || !hasChanges">
+            <span *ngIf="!loading">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+              Guardar Cambios
+            </span>
+            <span *ngIf="loading" class="loading-btn">
+              <div class="btn-spinner"></div>
+              Guardando...
+            </span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </form>
+</div>

@@ -20,6 +20,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./features/dashboard/dashboard').then(m => (m as any).DashboardComponent || (m as any).Dashboard || (m as any).default)
   },
+
+  {path: 'estadisticas',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/estadisticas/estadisticas')
+      .then(m => m.Estadisticas)
+
+  },
+
   {
     path: 'clientes',
     canActivate: [authGuard],
