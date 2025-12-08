@@ -1,1 +1,36 @@
-<p>not-found works!</p>
+<div class="not-found-container">
+  <div class="not-found-content">
+    <div class="error-code">404</div>
+    <h1>Página no encontrada</h1>
+    <p class="error-message">
+      Lo sentimos, la página que estás buscando no existe o ha sido movida.
+    </p>
+    
+    <div class="error-illustration">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="80" fill="#f0f0f0" stroke="#ddd" stroke-width="2"/>
+        <circle cx="75" cy="85" r="8" fill="#666"/>
+        <circle cx="125" cy="85" r="8" fill="#666"/>
+        <path d="M 70 130 Q 100 110 130 130" stroke="#666" stroke-width="3" fill="none"/>
+      </svg>
+    </div>
+
+    <div class="actions">
+      <a routerLink="/dashboard" class="btn-primary">
+        <i class="fas fa-home"></i> Ir al Dashboard
+      </a>
+      <button onclick="history.back()" class="btn-secondary">
+        <i class="fas fa-arrow-left"></i> Volver Atrás
+      </button>
+    </div>
+
+    <div class="suggestions">
+      <h3>Enlaces útiles:</h3>
+      <ul>
+        <li><a routerLink="/clientes">Clientes</a></li>
+        <li><a routerLink="/facturas">Facturas</a></li>
+        <li><a routerLink="/estadisticas">Estadísticas</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

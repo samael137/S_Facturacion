@@ -73,5 +73,5 @@ src/app/
     │   └── ruc-format-pipe.ts     
     │
     └── directives/                    
-        ├── highlight.directive.ts
-        └── highlight.directive.spec.ts
+        ├── highlight.ts
+        └── highlight.spec.ts

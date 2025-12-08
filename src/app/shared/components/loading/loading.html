@@ -1,1 +1,11 @@
-<p>loading works!</p>
+<div class="loading-container" [class.overlay]="overlay">
+  <div class="loading-content" [ngClass]="'loading-' + size">
+    <div class="spinner">
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+      <div class="spinner-ring"></div>
+    </div>
+    <p class="loading-message">{{ message }}</p>
+  </div>
+</div>

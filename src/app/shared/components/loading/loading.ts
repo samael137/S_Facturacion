@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-loading',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './loading.html',
-  styleUrl: './loading.css',
+  styleUrls: ['./loading.css']
 })
 export class Loading {
-
+  @Input() message: string = 'Cargando...';
+  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+  @Input() overlay: boolean = false;
 }

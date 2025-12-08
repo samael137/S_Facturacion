@@ -1,1 +1,19 @@
-<p>toast works!</p>
+<div class="toast-container">
+  <div 
+    *ngFor="let toast of toasts" 
+    class="toast"
+    [ngClass]="'toast-' + toast.type">
+    
+    <div class="toast-icon">
+      <i class="fas" [ngClass]="getIcon(toast.type)"></i>
+    </div>
+    
+    <div class="toast-content">
+      <p class="toast-message">{{ toast.message }}</p>
+    </div>
+    
+    <button class="toast-close" (click)="remove(toast.id)" type="button">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
