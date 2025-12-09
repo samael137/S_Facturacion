@@ -17,75 +17,74 @@
 
 ## Andamiaje de código
 
-PASO 1: Crear Servicios
-1.1 Servicio de Autenticación
+### PASO 1: Crear Servicios
+#### 1.1 Servicio de Autenticación
 ng g s services/auth 
 
-1.2 Servicio de Clientes
+#### 1.2 Servicio de Clientes
 ng g s services/clientes 
 
-1.3 Servicio de Facturas
+#### 1.3 Servicio de Facturas
 ng g s services/facturas 
 
-1.4 Servicio de Firestore 
+#### 1.4 Servicio de Firestore 
 ng g s services/firestore 
 
-1.5 Servicio de Toast 
+#### 1.5 Servicio de Toast 
 ng g s services/toast
 
-PASO 2: Crear Interfaces (Modelos)
-2.1 Interface Usuario
+### PASO 2: Crear Interfaces (Modelos)
+#### 2.1 Interface Usuario
 ng g interface models/usuario
 
-2.2 Interface Cliente
+#### 2.2 Interface Cliente
 ng g interface models/cliente
 
-2.3 Interface Factura
+#### 2.3 Interface Factura
 ng g interface models/factura
 
-2.4 Interface Producto (adicional necesario)
+#### 2.4 Interface Producto (adicional necesario)
 ng g interface models/producto
 
-PASO 3: Crear Componentes
-3.1 Login Component
+### PASO 3: Crear Componentes
+#### 3.1 Login Component
 ng g c features/auth/login 
 
-3.2 Register Component
+#### 3.2 Register Component
 ng g c features/auth/register 
 
-3.3 Dashboard Component
+#### 3.3 Dashboard Component
 ng g c features/dashboard 
 
 ng g c features/estadísticas
 
-3.4 Componentes de Clientes
+#### 3.4 Componentes de Clientes
 ng g c features/clientes/lista-clientes 
 ng g c features/clientes/crear-cliente 
 ng g c features/clientes/editar-cliente 
 ng g c features/clientes/detalle-cliente       
 
-3.5 Componentes de Facturas
+#### 3.5 Componentes de Facturas
 ng g c features/facturas/lista-facturas 
 ng g c features/facturas/crear-factura 
 ng g c features/facturas/editar-factura ---- 
 ng g c features/facturas/detalle-factura 
 
-3.6 Componentes Compartidos
+#### 3.6 Componentes Compartidos
 ng g c shared/components/navbar 
 ng g c shared/components/loading 
 ng g c shared/components/not-found 
 ng g c shared/components/toast
 
-PASO 4: Crear Guard
+### PASO 4: Crear Guard
 ng g guard core/guards/auth 
-Cuando pregunte: Selecciona CanActivate (usa flechas y ENTER)
 
-PASO 5: Crear Pipes Personalizados
+### PASO 5: Crear Pipes Personalizados
 ng g pipe shared/pipes/currency-format 
 ng g pipe shared/pipes/ruc-format 
 ng g pipe shared/pipes/estado-badge  estos fueron pasos 
 
-PASO 6: Crear directives
+### PASO 6: Crear directives
 ng g directive shared/directives/highlight
 ng g directive shared/directives/highlight.spec
 
