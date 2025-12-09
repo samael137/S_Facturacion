@@ -6,11 +6,14 @@ import { FacturasService } from '../../../services/facturas';
 import { FirestoreService } from '../../../services/firestore';
 import { AuthService } from '../../../services/auth';
 import { Factura } from '../../../models/factura';
+import { RucFormatPipe } from '../../../shared/pipes/ruc-format-pipe';
+import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format-pipe';
+import { EstadoBadgePipe } from '../../../shared/pipes/estado-badge-pipe';  
 
 @Component({
   selector: 'app-lista-facturas',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, RucFormatPipe, CurrencyFormatPipe, EstadoBadgePipe],
   templateUrl: './lista-facturas.html',
   styleUrl: './lista-facturas.css'
 })
@@ -280,12 +283,12 @@ export class ListaFacturas implements OnInit, OnDestroy {
     });
   }
 
-  formatearMoneda(valor: number): string {
-    return new Intl.NumberFormat('es-PE', {
-      style: 'currency',
-      currency: 'PEN'
-    }).format(valor);
-  }
+  //formatearMoneda(valor: number): string {
+  //  return new Intl.NumberFormat('es-PE', {
+  //    style: 'currency',
+  //    currency: 'PEN'
+  //  }).format(valor);
+  //}
 
   getEstadoClass(estado: string): string {
     const clases: { [key: string]: string } = {

@@ -26,7 +26,7 @@
       <div class="stat-content">
         <div class="stat-label">Total Facturas</div>
         <div class="stat-value">{{ totalFacturas }}</div>
-        <div class="stat-meta">{{ formatearMoneda(montoTotal) }}</div>
+        <div class="stat-meta">{{montoTotal | currencyFormat}}</div>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
       <div class="stat-content">
         <div class="stat-label">Pendientes</div>
         <div class="stat-value">{{ totalPendientes }}</div>
-        <div class="stat-meta">{{ formatearMoneda(montoPendiente) }}</div>
+        <div class="stat-meta">{{ montoPendiente | currencyFormat }}</div>
       </div>
     </div>
 
@@ -183,17 +183,18 @@
             <td>
               <div class="cliente-cell">
                 <div class="cliente-nombre">{{ factura.clienteNombre }}</div>
-                <div class="cliente-ruc">RUC: {{ factura.clienteRuc }}</div>
+                <div class="cliente-ruc">RUC: {{ factura.clienteRuc | rucFormat}}</div>
               </div>
             </td>
             <td>{{ formatearFecha(factura.fecha) }}</td>
             <td>{{ formatearFecha(factura.fechaVencimiento) }}</td>
             <td>
-              <span class="monto-total">{{ formatearMoneda(factura.total) }}</span>
+              <span class="monto-total">{{ factura.total | currencyFormat}}</span>
             </td>
             <td>
-              <span class="badge" [ngClass]="getEstadoClass(factura.estado)">
-                {{ getEstadoTexto(factura.estado) }}
+              <span class="badge" [ngClass]="(factura.estado | estadoBadge).class">
+                <i class="fas" [ngClass]="(factura.estado | estadoBadge).icon"></i>
+                {{ (factura.estado | estadoBadge).text }}
               </span>
             </td>
             <td>
