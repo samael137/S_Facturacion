@@ -18,6 +18,7 @@
 ## Andamiaje de código
 
 ### PASO 1: Crear Servicios
+
 #### 1.1 Servicio de Autenticación
 ng g s services/auth 
 
@@ -34,6 +35,7 @@ ng g s services/firestore
 ng g s services/toast
 
 ### PASO 2: Crear Interfaces (Modelos)
+
 #### 2.1 Interface Usuario
 ng g interface models/usuario
 
@@ -47,6 +49,7 @@ ng g interface models/factura
 ng g interface models/producto
 
 ### PASO 3: Crear Componentes
+
 #### 3.1 Login Component
 ng g c features/auth/login 
 
