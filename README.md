@@ -18,7 +18,7 @@
 ## Andamiaje de código
 
 ### PASO 1: Crear Servicios
-
+```bash
 #### 1.1 Servicio de Autenticación
 ng g s services/auth 
 
@@ -33,9 +33,9 @@ ng g s services/firestore
 
 #### 1.5 Servicio de Toast 
 ng g s services/toast
-
+```
 ### PASO 2: Crear Interfaces (Modelos)
-
+```bash
 #### 2.1 Interface Usuario
 ng g interface models/usuario
 
@@ -47,9 +47,9 @@ ng g interface models/factura
 
 #### 2.4 Interface Producto (adicional necesario)
 ng g interface models/producto
-
+```
 ### PASO 3: Crear Componentes
-
+```bash
 #### 3.1 Login Component
 ng g c features/auth/login 
 
@@ -78,19 +78,22 @@ ng g c shared/components/navbar
 ng g c shared/components/loading 
 ng g c shared/components/not-found 
 ng g c shared/components/toast
-
+```
 ### PASO 4: Crear Guard
+```bash
 ng g guard core/guards/auth 
-
+```
 ### PASO 5: Crear Pipes Personalizados
+```bash
 ng g pipe shared/pipes/currency-format 
 ng g pipe shared/pipes/ruc-format 
 ng g pipe shared/pipes/estado-badge  estos fueron pasos 
-
+```
 ### PASO 6: Crear directives
+```bash
 ng g directive shared/directives/highlight
 ng g directive shared/directives/highlight.spec
-
+```
 ### Estructura Final de Sistemas de Facturacion 
 
 ```bash
