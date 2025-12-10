@@ -1,6 +1,7 @@
 # SISTEMAS DE FACTURACIÓN
 
 ## Especificaciones de proyecto
+```bash
 "MAUCAYLLE CHIRCCA, YUNIOR YULIÑO": {
     "titulo": "Sistema de Facturación",
     "descripcion": "Aplicación CRUD en Angular para gestionar información relacionada con sistema de facturación.",
@@ -14,7 +15,7 @@
       "Crear una vista de estadísticas o resumen general con totales, promedios o estados principales."
     ]
   },
-
+```
 ## Andamiaje de código
 
 ### PASO 1: Crear Servicios
@@ -92,7 +93,7 @@ ng g pipe shared/pipes/estado-badge  estos fueron pasos
 ### PASO 6: Crear directives
 ```bash
 ng g directive shared/directives/highlight
-ng g directive shared/directives/highlight.spec
+
 ```
 ### Estructura Final de Sistemas de Facturacion 
 

@@ -16,7 +16,11 @@
 
   <!-- Estadísticas -->
   <div class="stats-grid">
-    <div class="stat-card stat-primary">
+   <!-- yo personalice -->
+    <div class="stat-card stat-primary"
+      appHighlight
+      [highlightColor]="'#e0f2fe'">
+      
       <div class="stat-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -176,7 +180,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let factura of facturasPaginadas">
+          <!--yo personalice  -->
+          <tr *ngFor="let factura of facturasPaginadas"appHighlight [highlightBorder]="true" [highlightColor]="'#eff6ff'">
             <td>
               <span class="factura-numero">{{ factura.numeroFactura }}</span>
             </td>

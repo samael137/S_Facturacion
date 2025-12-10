@@ -9,11 +9,12 @@ import { Factura } from '../../../models/factura';
 import { RucFormatPipe } from '../../../shared/pipes/ruc-format-pipe';
 import { CurrencyFormatPipe } from '../../../shared/pipes/currency-format-pipe';
 import { EstadoBadgePipe } from '../../../shared/pipes/estado-badge-pipe';  
+import { Highlight } from '../../../shared/directives/highlight';
 
 @Component({
   selector: 'app-lista-facturas',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, RucFormatPipe, CurrencyFormatPipe, EstadoBadgePipe],
+  imports: [CommonModule, RouterLink, FormsModule, RucFormatPipe, CurrencyFormatPipe, EstadoBadgePipe, Highlight],
   templateUrl: './lista-facturas.html',
   styleUrl: './lista-facturas.css'
 })
