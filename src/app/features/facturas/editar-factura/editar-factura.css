@@ -197,7 +197,7 @@
 .header-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -216,7 +216,7 @@
 
 .btn-add-item {
   padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -260,7 +260,15 @@
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #f7fafc;
+  background: white;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
 }
 
 .form-group input:focus,
@@ -280,17 +288,24 @@
 
 .form-group select {
   cursor: pointer;
+  color: #2d3748;
+}
+
+.form-group select option {
+  color: #2d3748;
+  background: white;
 }
 
 .form-group textarea {
   resize: vertical;
   font-family: inherit;
+  min-height: 100px;
 }
 
 /* Form Grid */
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
@@ -344,70 +359,123 @@
 .items-container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .item-row {
   display: flex;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: #f7fafc;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: white;
   border-radius: 12px;
-  border: 2px solid #e2e8f0;
+  border: 1px solid #e2e8f0;
   transition: all 0.3s ease;
 }
 
 .item-row:hover {
   border-color: #cbd5e0;
-  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .item-number {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 1.125rem;
+  font-size: 1rem;
   flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 1.5rem;
 }
 
+/* DISEÑO HORIZONTAL TIPO TABLA */
 .item-fields {
   flex: 1;
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr 1.2fr 1fr 1.2fr auto;
-  gap: 1rem;
-  align-items: end;
+  grid-template-columns: 2fr 2fr 0.8fr 1fr 1fr 1fr 1.2fr;
+  gap: 0.75rem;
+  align-items: start;
 }
 
-.form-group-small {
-  min-width: 0;
+/* Estilos generales para los form-group dentro de item-fields */
+.item-fields .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
-.form-group-small input,
-.form-group-small select {
-  padding: 0.75rem 0.75rem;
-  font-size: 0.9rem;
-}
-
-.producto-select {
-  font-size: 0.9rem;
-}
-
-.readonly-input {
-  background: #edf2f7 !important;
+.item-fields .form-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
   color: #4a5568;
-  cursor: not-allowed;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-fields .form-group input,
+.item-fields .form-group select {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  background: white;
+  color: #2d3748;
+  font-weight: 500;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.item-fields .form-group input::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
+}
+
+.item-fields .form-group input:focus,
+.item-fields .form-group select:focus {
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: none;
+}
+
+/* Select de producto */
+.producto-select {
+  font-size: 0.85rem;
+  color: #2d3748;
+  cursor: pointer;
+}
+
+/* Campos numéricos centrados */
+.item-fields .form-group:nth-child(3) input,
+.item-fields .form-group:nth-child(4) input,
+.item-fields .form-group:nth-child(5) input,
+.item-fields .form-group:nth-child(6) input,
+.item-fields .form-group:nth-child(7) input {
+  text-align: center;
   font-weight: 600;
 }
 
+/* Inputs readonly (Subtotal, IVA, Total) */
+.readonly-input {
+  background: #edf2f7 !important;
+  color: #4a5568 !important;
+  cursor: not-allowed;
+  font-weight: 600;
+  border-color: #cbd5e0 !important;
+}
+
 .total-input {
-  color: #667eea;
-  font-weight: 700;
+  color: #667eea !important;
+  font-weight: 700 !important;
+  background: #f0f4ff !important;
+  border-color: #c3d4ff !important;
+  font-size: 0.9rem !important;
 }
 
 .btn-delete-item {
@@ -422,7 +490,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  align-self: flex-end;
+  flex-shrink: 0;
+  margin-top: 1.5rem;
 }
 
 .btn-delete-item:hover:not(:disabled) {
@@ -432,8 +501,10 @@
 }
 
 .btn-delete-item:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  border-color: #e2e8f0;
+  color: #cbd5e0;
 }
 
 /* Summary Card */
@@ -494,6 +565,8 @@
   max-width: 150px;
   padding: 0.5rem 0.75rem;
   font-size: 0.95rem;
+  background: white;
+  color: #2d3748;
 }
 
 .summary-divider {
@@ -552,7 +625,7 @@
 
 .btn-primary {
   padding: 0.875rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%);
   color: white;
   border: none;
   border-radius: 10px;
@@ -619,8 +692,18 @@
 /* Responsive */
 @media (max-width: 1400px) {
   .item-fields {
-    grid-template-columns: 2fr 2fr 0.8fr 0.8fr 1fr 0.8fr 1fr auto;
-    gap: 0.75rem;
+    grid-template-columns: 1.8fr 1.8fr 0.7fr 0.9fr 0.9fr 0.9fr 1fr;
+    gap: 0.65rem;
+  }
+
+  .item-fields .form-group label {
+    font-size: 0.7rem;
+  }
+
+  .item-fields .form-group input,
+  .item-fields .form-group select {
+    font-size: 0.8rem;
+    padding: 0.55rem 0.65rem;
   }
 }
 
@@ -633,17 +716,30 @@
     position: static;
   }
 
-  .item-fields {
-    grid-template-columns: 1fr 1fr;
+  .item-row {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .form-group-small {
-    grid-column: span 1;
+  .item-number {
+    align-self: flex-start;
+    margin-top: 0;
+  }
+
+  .item-fields {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .item-fields .form-group:nth-child(1),
+  .item-fields .form-group:nth-child(2) {
+    grid-column: span 2;
   }
 
   .btn-delete-item {
-    grid-column: span 2;
+    margin-top: 1rem;
     width: 100%;
+    height: 42px;
   }
 
   .changes-badge {

@@ -1,6 +1,6 @@
 # SISTEMAS DE FACTURACIÓN
 
-## Especificaciones de proyecto
+## Especificaciones del  proyecto
 ```bash
 "MAUCAYLLE CHIRCCA, YUNIOR YULIÑO": {
     "titulo": "Sistema de Facturación",

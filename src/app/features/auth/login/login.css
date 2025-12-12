@@ -90,7 +90,7 @@
 .logo-circle {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #27c9a9, #4b8da2);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -266,10 +266,10 @@
   }
 }
 
-/* Botón principal */
+/* Botón principal  */
 .btn-primary {
   padding: 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%);
   color: white;
   border: none;
   border-radius: 12px;

@@ -109,18 +109,49 @@ export class DetalleFactura implements OnInit {
     }
   }
 
-  // Helpers
-  formatearFecha(fecha: Date | any): string {
-    if (!fecha) return '-';
-    const f = fecha instanceof Date ? fecha : new Date(fecha);
-    return f.toLocaleDateString('es-ES', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
+  // ✅ MÉTODO CORREGIDO - Maneja Timestamp de Firestore
+  formatearFecha(fecha: any): string {
+    if (!fecha) {
+      return 'Fecha no disponible';
+    }
+
+    try {
+      let dateObj: Date;
+
+      // Si es un Timestamp de Firestore
+      if (fecha.toDate && typeof fecha.toDate === 'function') {
+        dateObj = fecha.toDate();
+      }
+      // Si ya es un objeto Date
+      else if (fecha instanceof Date) {
+        dateObj = fecha;
+      }
+      // Si es un string o número
+      else {
+        dateObj = new Date(fecha);
+      }
+
+      // Validar que la fecha sea válida
+      if (isNaN(dateObj.getTime())) {
+        return 'Fecha inválida';
+      }
+
+      return dateObj.toLocaleDateString('es-ES', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    } catch (error) {
+      console.error('Error formateando fecha:', error, fecha);
+      return 'Error en fecha';
+    }
   }
 
   formatearMoneda(valor: number): string {
+    if (valor === null || valor === undefined || isNaN(valor)) {
+      return 'S/ 0.00';
+    }
+    
     return new Intl.NumberFormat('es-PE', {
       style: 'currency',
       currency: 'PEN'

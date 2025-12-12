@@ -92,7 +92,8 @@
 
 /* Cliente Header */
 .cliente-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%
+);
   padding: 2.5rem 2rem;
   display: flex;
   align-items: center;
@@ -314,7 +315,8 @@
 }
 
 .action-btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%
+);
   color: white;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }

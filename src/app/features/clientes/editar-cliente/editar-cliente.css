@@ -133,7 +133,8 @@
 .section-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%
+);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -270,7 +271,8 @@ border-top: 2px solid #e2e8f0;
 /* Buttons */
 .btn-primary {
 padding: 0.875rem 2rem;
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%
+);
 color: white;
 border: none;
 border-radius: 10px;

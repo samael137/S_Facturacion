@@ -92,18 +92,48 @@ export class DetalleCliente implements OnInit {
     }
   }
 
-  formatearFecha(fecha: Date | any): string {
-    if (!fecha) return '-';
-    const f = fecha instanceof Date ? fecha : new Date(fecha);
-    return f.toLocaleDateString('es-ES', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
+  // ✅ MÉTODO CORREGIDO - Maneja Timestamp de Firestore
+  formatearFecha(fecha: any): string {
+    if (!fecha) {
+      return 'Fecha no disponible';
+    }
+
+    try {
+      let dateObj: Date;
+
+      // Si es un Timestamp de Firestore
+      if (fecha.toDate && typeof fecha.toDate === 'function') {
+        dateObj = fecha.toDate();
+      }
+      // Si ya es un objeto Date
+      else if (fecha instanceof Date) {
+        dateObj = fecha;
+      }
+      // Si es un string o número
+      else {
+        dateObj = new Date(fecha);
+      }
+
+      // Validar que la fecha sea válida
+      if (isNaN(dateObj.getTime())) {
+        return 'Fecha inválida';
+      }
+
+      return dateObj.toLocaleDateString('es-ES', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    } catch (error) {
+      console.error('Error formateando fecha:', error, fecha);
+      return 'Error en fecha';
+    }
   }
 
   getIniciales(): string {
     if (!this.cliente) return '?';
-    return `${this.cliente.nombre.charAt(0)}${this.cliente.apellido.charAt(0)}`;
+    const nombre = this.cliente.nombre?.charAt(0) || '';
+    const apellido = this.cliente.apellido?.charAt(0) || '';
+    return `${nombre}${apellido}`.toUpperCase() || '?';
   }
 }

@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1f4eda 0%, #1ec3dc 100%);
   padding: 20px;
   position: relative;
   overflow: hidden;
@@ -111,7 +111,7 @@
 .logo-circle {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #27c9a9, #4b8da2);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -300,10 +300,10 @@
   }
 }
 
-/* Botón principal */
+/* Botón principal #27c9a9, #4b8da2*/
 .btn-primary {
   padding: 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #27c9a9 0%, #4b8da2 100%);
   color: white;
   border: none;
   border-radius: 12px;
