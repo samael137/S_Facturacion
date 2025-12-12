@@ -1,11 +1,17 @@
 <app-toast></app-toast>
 
-<app-navbar></app-navbar>
+@if (showNavbarAndFooter()) {
+  <app-navbar></app-navbar>
+}
+
 <router-outlet />
-<footer class="app-footer">
-  <div class="footer-content">
-    <span>&copy; 2025 Sistemas_Facturacion. Todos los derechos reservados.</span>
-  </div>
-</footer>
+
+@if (showNavbarAndFooter()) {
+  <footer class="app-footer">
+    <div class="footer-content">
+      <span>&copy; 2025 Sistemas_Facturacion. Todos los derechos reservados.</span>
+    </div>
+  </footer>
+}
 
 
