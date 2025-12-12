@@ -87,7 +87,10 @@ export class DashboardComponent implements OnInit {
 
     const ingresos = facturas
       .filter(f => {
-        const fechaFactura = f.fecha instanceof Date ? f.fecha : new Date(f.fecha);
+        // ✅ Convertir fecha correctamente
+        const fechaFactura = this.convertirAFecha(f.fecha);
+        if (!fechaFactura) return false;
+        
         return fechaFactura.getMonth() === mesActual && 
                fechaFactura.getFullYear() === añoActual &&
                f.estado === 'pagada';
@@ -95,6 +98,27 @@ export class DashboardComponent implements OnInit {
       .reduce((sum, f) => sum + f.total, 0);
 
     this.ingresosMes.set(ingresos);
+  }
+
+  // ✅ NUEVO MÉTODO - Convierte cualquier tipo de fecha
+  private convertirAFecha(fecha: any): Date | null {
+    if (!fecha) return null;
+
+    try {
+      // Si es Timestamp de Firestore
+      if (fecha.toDate && typeof fecha.toDate === 'function') {
+        return fecha.toDate();
+      }
+      // Si ya es Date
+      if (fecha instanceof Date) {
+        return fecha;
+      }
+      // Si es string o número
+      const dateObj = new Date(fecha);
+      return isNaN(dateObj.getTime()) ? null : dateObj;
+    } catch {
+      return null;
+    }
   }
 
   getEstadoClass(estado: string): string {
@@ -117,17 +141,49 @@ export class DashboardComponent implements OnInit {
     return textos[estado] || estado;
   }
 
-  formatearFecha(fecha: Date | any): string {
-    if (!fecha) return '-';
-    const f = fecha instanceof Date ? fecha : new Date(fecha);
-    return f.toLocaleDateString('es-ES', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
-    });
+  // ✅ MÉTODO CORREGIDO - Maneja Timestamp de Firestore
+  formatearFecha(fecha: any): string {
+    if (!fecha) {
+      return 'Fecha no disponible';
+    }
+
+    try {
+      let dateObj: Date;
+
+      // Si es un Timestamp de Firestore
+      if (fecha.toDate && typeof fecha.toDate === 'function') {
+        dateObj = fecha.toDate();
+      }
+      // Si ya es un objeto Date
+      else if (fecha instanceof Date) {
+        dateObj = fecha;
+      }
+      // Si es un string o número
+      else {
+        dateObj = new Date(fecha);
+      }
+
+      // Validar que la fecha sea válida
+      if (isNaN(dateObj.getTime())) {
+        return 'Fecha inválida';
+      }
+
+      return dateObj.toLocaleDateString('es-ES', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    } catch (error) {
+      console.error('Error formateando fecha:', error, fecha);
+      return 'Error en fecha';
+    }
   }
 
   formatearMoneda(valor: number): string {
+    if (valor === null || valor === undefined || isNaN(valor)) {
+      return 'S/ 0.00';
+    }
+    
     return new Intl.NumberFormat('es-PE', {
       style: 'currency',
       currency: 'PEN'
