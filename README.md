@@ -219,12 +219,10 @@ graph TD
 ---
 
 ## 🌐 Deploy en Firebase Hosting
-
+   
 ### URL de la Aplicación Desplegada
 
 🔗 **[https://sistema-facturacion-cd4c1.web.app](https://sistema-facturacion-cd4c1.web.app)**
-
-> ⚠️ **Nota:** Reemplaza esta URL con la URL real de Firebase Hosting después del despliegue.
 
 ### Pasos para Desplegar
 
@@ -250,54 +248,7 @@ firebase deploy
 ## 🎥 Video Demostrativo
 
 ### 📹 Enlace al Video
-🔗 **[Video Demostrativo del Sistema (5-8 minutos)](https://TU-ENLACE-DE-VIDEO.com)**
-
-> ⚠️ **Nota:** Reemplaza este enlace con la URL real de tu video en YouTube, Google Drive, o plataforma de tu preferencia.
-
-### Contenido del Video
-
-El video de demostración incluye:
-
-1. **Introducción al Sistema** (30 seg)
-   - Presentación general de la aplicación
-   - Tecnologías utilizadas
-
-2. **Flujo de Autenticación** (1-2 min)
-   - Registro de nuevo usuario
-   - Inicio de sesión
-   - Cierre de sesión
-   - Protección de rutas
-
-3. **Gestión de Clientes** (1-2 min)
-   - Crear nuevo cliente
-   - Listar clientes
-   - Buscar y filtrar
-   - Editar cliente
-   - Ver detalles
-   - Eliminar cliente
-
-4. **Gestión de Facturas** (2-3 min)
-   - Crear nueva factura
-   - Agregar productos
-   - Cálculos automáticos
-   - Guardar en Firestore
-   - Listar facturas
-   - Ver detalles de factura
-   - Editar y actualizar
-
-5. **Estadísticas** (30 seg - 1 min)
-   - Vista de dashboard
-   - Métricas principales
-   - Datos en tiempo real
-
-6. **Explicación del Código** (1-2 min)
-   - Estructura de componentes
-   - Servicios principales
-   - AuthGuard
-   - Integración con Firebase
-   - Manejo de estados y observables
-
----
+🔗 **[Video Demostrativo del Sistema (5-8 minutos)](https://youtu.be/6o9D_ZsCkaU)**
 
 ## 📖 Manual de Usuario
 
