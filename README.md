@@ -55,7 +55,7 @@ Sistema de Facturación es una aplicación web moderna y completa desarrollada c
 
 1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/S_Facturacion.git
+git clone https://github.com/samael137/S_Facturacion.git
 cd S_Facturacion
 ```
 
@@ -222,7 +222,7 @@ graph TD
 
 ### URL de la Aplicación Desplegada
 
-🔗 **[https://TU-PROYECTO.web.app](https://TU-PROYECTO.web.app)**
+🔗 **[https://sistema-facturacion-cd4c1.web.app](https://sistema-facturacion-cd4c1.web.app)**
 
 > ⚠️ **Nota:** Reemplaza esta URL con la URL real de Firebase Hosting después del despliegue.
 
