@@ -248,7 +248,7 @@ firebase deploy
 ## 🎥 Video Demostrativo
 
 ### 📹 Enlace al Video
-🔗 **[Video Demostrativo del Sistema (5-8 minutos)](https://youtu.be/6o9D_ZsCkaU)**
+🔗 **[https://youtu.be/6o9D_ZsCkaU](https://youtu.be/6o9D_ZsCkaU)**
 
 ## 📖 Manual de Usuario
 
